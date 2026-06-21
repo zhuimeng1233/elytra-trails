@@ -1,0 +1,6 @@
+{
+  "type": "elytratrails:trail",
+  "base": "minecraft:book",
+  "addition": "minecraft:gunpowder",
+  "enchant_id": "big_trail"
+}
