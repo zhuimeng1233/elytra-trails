@@ -92,8 +92,3 @@
 
 [MIT License](LICENSE)
 
----
-
-## 👤 作者
-
-坠梦 · 2026
