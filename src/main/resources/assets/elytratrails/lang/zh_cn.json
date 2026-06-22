@@ -16,6 +16,7 @@
   "enchantment.elytratrails.red_trail": "红色尾迹",
   "enchantment.elytratrails.black_trail": "黑色尾迹",
   "enchantment.elytratrails.big_trail": "大尾迹",
+  "enchantment.elytratrails.multi_trail": "多轨迹",
   "gamerule.elytratrails.trail_duration": "尾迹持续时间",
   "gamerule.elytratrails.trail_spread": "大尾迹扩散半径",
   "gamerule.elytratrails.trail_duration.description": "每个尾迹粒子的持续时间（tick）",

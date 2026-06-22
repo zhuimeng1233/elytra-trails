@@ -1,14 +1,23 @@
 {
   "anvil_cost": 2,
   "description": {
+    "type": "translatable",
     "translate": "enchantment.elytratrails.light_gray_trail"
   },
   "effects": {},
   "exclusive_set": "#elytratrails:exclusive_set/trail_color",
-  "max_cost": { "base": 25, "per_level_above_first": 0 },
+  "max_cost": {
+    "base": 25,
+    "per_level_above_first": 0
+  },
   "max_level": 1,
-  "min_cost": { "base": 15, "per_level_above_first": 0 },
-  "slots": ["chest"],
+  "min_cost": {
+    "base": 15,
+    "per_level_above_first": 0
+  },
+  "slots": [
+    "chest"
+  ],
   "supported_items": "minecraft:elytra",
   "weight": 1
 }

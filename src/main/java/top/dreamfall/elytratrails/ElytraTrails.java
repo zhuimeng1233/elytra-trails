@@ -4,14 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleBuilder;
-import net.fabricmc.fabric.api.recipe.v1.sync.RecipeSynchronization;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.rule.GameRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import top.dreamfall.elytratrails.recipe.ElytraTrailsRecipes;
 
 import java.io.*;
 
@@ -24,8 +21,8 @@ public class ElytraTrails implements ModInitializer {
             GameRuleBuilder.forInteger(100).range(20, 5000)
                     .buildAndRegister(Identifier.of(MOD_ID, "trail_duration"));
 
-    public static final GameRule<Double> TRAIL_SPREAD =
-            GameRuleBuilder.forDouble(1.0).range(0.0, 10.0)
+    public static final GameRule<Integer> TRAIL_SPREAD =
+            GameRuleBuilder.forInteger(10).range(0, 100)
                     .buildAndRegister(Identifier.of(MOD_ID, "trail_spread"));
 
     // --- config defaults ---
@@ -36,8 +33,6 @@ public class ElytraTrails implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        ElytraTrailsRecipes.init();
-        RecipeSynchronization.synchronizeRecipeSerializer(ElytraTrailsRecipes.TRAIL_RECIPE_SERIALIZER);
         loadConfig();
         LOGGER.info("鞘翅尾迹 mod 已加载~");
     }

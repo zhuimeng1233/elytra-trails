@@ -24,31 +24,26 @@ import top.dreamfall.elytratrails.ElytraTrails;
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin {
 
-    @Unique private double p0x, p0y, p0z; // 2 ticks 前
-    @Unique private double p1x, p1y, p1z; // 1 tick 前
-    @Unique private int trailPosCount;     // 已记录点数
+    @Unique private double p0x, p0y, p0z;
+    @Unique private double p1x, p1y, p1z;
+    @Unique private int trailPosCount;
 
     @Inject(method = "tick", at = @At("TAIL"))
     private void onTickTail(CallbackInfo ci) {
         PlayerEntity self = (PlayerEntity) (Object) this;
 
         if (!self.getEntityWorld().isClient()) return;
-        if (!self.isGliding()) {
-            trailPosCount = 0;
-            return;
-        }
+        if (!self.isGliding()) { trailPosCount = 0; return; }
 
         ItemStack chest = self.getEquippedStack(EquipmentSlot.CHEST);
-        if (!chest.isOf(Items.ELYTRA)) {
-            trailPosCount = 0;
-            return;
-        }
+        if (!chest.isOf(Items.ELYTRA)) { trailPosCount = 0; return; }
 
         var enchants = chest.getEnchantments();
         var entries = enchants.getEnchantments();
 
         RegistryEntry<Enchantment> trailEnchant = null;
         boolean big = false;
+        int multiLevel = 0;
 
         for (RegistryEntry<Enchantment> entry : entries) {
             var key = entry.getKey().orElse(null);
@@ -59,6 +54,8 @@ public abstract class PlayerEntityMixin {
             String path = id.getPath();
             if (path.equals("big_trail")) {
                 big = true;
+            } else if (path.equals("multi_trail")) {
+                multiLevel = enchants.getLevel(entry);
             } else if (path.endsWith("_trail")) {
                 trailEnchant = entry;
             }
@@ -73,64 +70,82 @@ public abstract class PlayerEntityMixin {
         DyeColor dye = DyeColor.values()[colorIndex];
         int color = dye.getMapColor().color;
 
-        // 读取持续时间和扩散半径（gamerule 优先于 config）
         int duration = ElytraTrails.trailDurationTicks;
         double spread = ElytraTrails.spreadRadius;
+        double spacing = 0.5;
         MinecraftServer server = self.getEntityWorld().getServer();
         if (server != null) {
             GameRules rules = server.getOverworld().getGameRules();
             duration = rules.getValue(ElytraTrails.TRAIL_DURATION);
-            spread = rules.getValue(ElytraTrails.TRAIL_SPREAD);
+            spread = rules.getValue(ElytraTrails.TRAIL_SPREAD) / 10.0;
         }
 
-        // 当前位置（背部/鞘翅）
+        int totalTrails = 1 + multiLevel * 2;
+        Vec3d perp = self.getVelocity().normalize().crossProduct(new Vec3d(0, 1, 0));
+        if (perp.length() < 0.01) perp = new Vec3d(1, 0, 0);
+        perp = perp.normalize();
+
         var look = self.getRotationVector().multiply(-0.8);
         double cx = self.getX() + look.x;
         double cy = self.getY();
         double cz = self.getZ() + look.z;
         Vec3d currentPos = new Vec3d(cx, cy, cz);
 
-        // 二次贝塞尔：3 点曲线 (p0 → p1 → p2)
-        Vec3d p2 = currentPos; // 当前
+        Vec3d p2 = currentPos;
         Vec3d p1 = trailPosCount >= 1 ? new Vec3d(p1x, p1y, p1z) : p2;
         Vec3d p0 = trailPosCount >= 2 ? new Vec3d(p0x, p0y, p0z) : p1;
 
-        int count = big ? 75 : 25;
+        int baseCount = big ? 90 : 25;
+        int count = Math.max(3, baseCount / totalTrails);
+        int particleColor = big ? brighten(color) : color;
         Random rng = self.getRandom();
 
-        for (int i = 0; i < count; i++) {
-            float t = (float) i / count; // 0 → 1
+        int halfExtra = totalTrails / 2;
+        for (int trailIdx = -halfExtra; trailIdx <= halfExtra; trailIdx++) {
+            Vec3d trailOffset = perp.multiply(trailIdx * spacing);
 
-            // B(t) = (1-t)²·p0 + 2(1-t)t·p1 + t²·p2
-            float u = 1 - t;
-            double bx = u*u*p0.x + 2*u*t*p1.x + t*t*p2.x;
-            double by = u*u*p0.y + 2*u*t*p1.y + t*t*p2.y;
-            double bz = u*u*p0.z + 2*u*t*p1.z + t*t*p2.z;
-            Vec3d spawnPos = new Vec3d(bx, by, bz);
+            for (int i = 0; i < count; i++) {
+                float t = (float) i / count;
+                float u = 1 - t;
+                double bx = u*u*p0.x + 2*u*t*p1.x + t*t*p2.x;
+                double by = u*u*p0.y + 2*u*t*p1.y + t*t*p2.y;
+                double bz = u*u*p0.z + 2*u*t*p1.z + t*t*p2.z;
+                Vec3d spawnPos = new Vec3d(bx, by, bz).add(trailOffset);
 
-            Vec3d target;
-            if (big) {
-                float angle = rng.nextFloat() * (float) Math.PI * 2;
-                float pitch = (rng.nextFloat() - 0.5f) * (float) Math.PI;
-                Vec3d offset = new Vec3d(
-                        Math.cos(angle) * Math.cos(pitch) * spread,
-                        Math.sin(pitch) * spread,
-                        Math.sin(angle) * Math.cos(pitch) * spread
+                Vec3d target;
+                if (big) {
+                    float angle = rng.nextFloat() * (float) Math.PI * 2;
+                    float pitch = (rng.nextFloat() - 0.5f) * (float) Math.PI;
+                    Vec3d offset = new Vec3d(
+                            Math.cos(angle) * Math.cos(pitch) * spread,
+                            Math.sin(pitch) * spread,
+                            Math.sin(angle) * Math.cos(pitch) * spread
+                    );
+                    target = spawnPos.add(offset);
+                } else {
+                    target = spawnPos;
+                }
+
+                self.getEntityWorld().addParticleClient(
+                        new TrailParticleEffect(target, particleColor, duration),
+                        spawnPos.x, spawnPos.y, spawnPos.z, 0, 0, 0
                 );
-                target = spawnPos.add(offset);
-            } else {
-                target = spawnPos;
             }
-
-            self.getEntityWorld().addParticleClient(
-                    new TrailParticleEffect(target, color, duration),
-                    spawnPos.x, spawnPos.y, spawnPos.z, 0, 0, 0
-            );
         }
 
-        // 推进记录：p0 ← p1, p1 ← p2 (当前)
         p0x = p1x; p0y = p1y; p0z = p1z;
         p1x = cx;  p1y = cy;  p1z = cz;
         trailPosCount = Math.min(trailPosCount + 1, 2);
+    }
+
+    @Unique
+    private static int brighten(int color) {
+        int r = (color >> 16) & 0xFF;
+        int g = (color >> 8) & 0xFF;
+        int b = color & 0xFF;
+        r = Math.min(255, r + (255 - r) * 2 / 5);
+        g = Math.min(255, g + (255 - g) * 2 / 5);
+        b = Math.min(255, b + (255 - b) * 2 / 5);
+        return (r << 16) | (g << 8) | b;
     }
 }

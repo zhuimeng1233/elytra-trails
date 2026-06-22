@@ -16,6 +16,7 @@
   "enchantment.elytratrails.red_trail": "Red Trail",
   "enchantment.elytratrails.black_trail": "Black Trail",
   "enchantment.elytratrails.big_trail": "Big Trail",
+  "enchantment.elytratrails.multi_trail": "Multi Trail",
   "gamerule.elytratrails.trail_duration": "Trail Duration",
   "gamerule.elytratrails.trail_spread": "Big Trail Spread Radius",
   "gamerule.elytratrails.trail_duration.description": "Duration of each trail particle (ticks)",

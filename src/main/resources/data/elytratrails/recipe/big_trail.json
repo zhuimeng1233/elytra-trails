@@ -1,6 +1,17 @@
 {
-  "type": "elytratrails:trail",
-  "base": "minecraft:book",
-  "addition": "minecraft:gunpowder",
-  "enchant_id": "big_trail"
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:book",
+    "minecraft:gunpowder"
+  ],
+  "result": {
+    "id": "minecraft:enchanted_book",
+    "count": 1,
+    "components": {
+      "minecraft:stored_enchantments": {
+        "elytratrails:big_trail": 1
+      }
+    }
+  }
 }
