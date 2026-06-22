@@ -49,6 +49,7 @@ java {
     def javaVersion = JavaVersion.toVersion(targetJavaVersion)
     sourceCompatibility = javaVersion
     targetCompatibility = javaVersion
+    withSourcesJar()
 }
 
 jar {
