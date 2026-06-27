@@ -61,6 +61,7 @@ src/main/resources/
 - **淡出**：ease-out 平方 `alpha = 1 - (age/maxAge)²`
 - **光照**：`getBrightness()` 返回 `15728880`（全天光），晚上也清晰可见
 - **纹理**：复用原版 `generic_0~7`，PARTICLE_SHEET_OPAQUE
+- **注意**：手写粒子系统与1.21.11的存在效果上的区别
 
 ### JEI 兼容
 
