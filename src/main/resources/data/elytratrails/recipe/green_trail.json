@@ -1,0 +1,6 @@
+{
+  "type": "elytratrails:trail",
+  "base": { "item": "minecraft:book" },
+  "addition": { "item": "minecraft:green_dye" },
+  "enchant_id": "green_trail"
+}
