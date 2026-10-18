@@ -1,0 +1,15 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        maven { url = 'https://maven.neoforged.net/releases' }
+        mavenCentral()
+    }
+}
+
+rootProject.name = 'elytra-trails-neoforge'
+
+includeBuild 'versions/1.21'
+includeBuild 'versions/1.21.1'
+includeBuild 'versions/1.21.2-1.21.3'
+includeBuild 'versions/1.21.4-1.21.10'
+includeBuild 'versions/1.21.11'
