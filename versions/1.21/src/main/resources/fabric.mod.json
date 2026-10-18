@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "elytratrails",
+  "version": "${version}",
+  "name": "鞘翅尾迹",
+  "description": "飞行时留下彩色尾迹！用染料+书合成尾迹附魔书，附在鞘翅上即可。",
+  "authors": ["坠梦"],
+  "contact": {},
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["top.dreamfall.elytratrails.ElytraTrails"],
+    "client": ["top.dreamfall.elytratrails.ElytraTrailsClient"]
+  },
+  "mixins": ["elytratrails.mixins.json"],
+  "depends": {
+    "fabricloader": ">=0.15",
+    "fabric-api": "*",
+    "minecraft": "~1.21",
+    "java": ">=21"
+  }
+}

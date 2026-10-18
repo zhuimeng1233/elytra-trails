@@ -1,0 +1,22 @@
+{
+  "anvil_cost": 3,
+  "description": {
+    "type": "translatable",
+    "translate": "enchantment.elytratrails.multi_trail"
+  },
+  "effects": {},
+  "max_cost": {
+    "base": 35,
+    "per_level_above_first": 10
+  },
+  "max_level": 5,
+  "min_cost": {
+    "base": 20,
+    "per_level_above_first": 10
+  },
+  "slots": [
+    "chest"
+  ],
+  "supported_items": "minecraft:elytra",
+  "weight": 1
+}

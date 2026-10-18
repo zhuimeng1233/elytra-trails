@@ -1,0 +1,22 @@
+{
+  "enchantment.elytratrails.white_trail": "White Trail",
+  "enchantment.elytratrails.orange_trail": "Orange Trail",
+  "enchantment.elytratrails.magenta_trail": "Magenta Trail",
+  "enchantment.elytratrails.light_blue_trail": "Light Blue Trail",
+  "enchantment.elytratrails.yellow_trail": "Yellow Trail",
+  "enchantment.elytratrails.lime_trail": "Lime Trail",
+  "enchantment.elytratrails.pink_trail": "Pink Trail",
+  "enchantment.elytratrails.gray_trail": "Gray Trail",
+  "enchantment.elytratrails.light_gray_trail": "Light Gray Trail",
+  "enchantment.elytratrails.cyan_trail": "Cyan Trail",
+  "enchantment.elytratrails.purple_trail": "Purple Trail",
+  "enchantment.elytratrails.blue_trail": "Blue Trail",
+  "enchantment.elytratrails.brown_trail": "Brown Trail",
+  "enchantment.elytratrails.green_trail": "Green Trail",
+  "enchantment.elytratrails.red_trail": "Red Trail",
+  "enchantment.elytratrails.black_trail": "Black Trail",
+  "enchantment.elytratrails.big_trail": "Big Trail",
+  "enchantment.elytratrails.multi_trail": "Multi Trail",
+  "gamerule.elytraTrailDuration": "Trail Duration",
+  "gamerule.elytraTrailSpread": "Big Trail Spread Radius"
+}

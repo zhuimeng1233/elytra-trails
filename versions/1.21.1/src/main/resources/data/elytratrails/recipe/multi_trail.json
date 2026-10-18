@@ -1,0 +1,7 @@
+{
+  "type": "elytratrails:trail",
+  "base": { "item": "minecraft:book" },
+  "addition": { "item": "minecraft:gunpowder" },
+  "extra": { "item": "minecraft:flint" },
+  "enchant_id": "multi_trail"
+}
