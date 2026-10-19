@@ -1,4 +1,4 @@
-# 鞘翅尾迹 (Elytra Trails)
+# [ElyT]鞘翅尾迹 (Elytra Trails)
 
 > 🛩️ 飞行时留下彩色尾迹！原版画风的鞘翅专属附魔模组。
 >
